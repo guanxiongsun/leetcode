@@ -5,15 +5,15 @@ class Solution:
     @return: the Kth largest element
     """
     def swap(l, j, k):
-        temp = l(j);
-        l(j) = l(k);
-        l(k) = temp;
+        temp = l[j];
+        l[j] = l[k];
+        l[k] = temp;
 
-    def quickSort ( l , begin, end):
+    def quickSort(l, begin, end):
         while end - begin > 1:
-            pivot = l(begin);
+            pivot = l[begin];
             if end - begin == 2:
-                if l(begin)>l(end):
+                if l[begin]>l[end]:
                     swap(l,begin,end);
                 # len(sublist) >= 3
                 else:
@@ -21,10 +21,10 @@ class Solution:
                     rear = end;
                     while head < rear:
                         while head < rear:
-                            while l(head)<=pivot:
+                            while l[head]<=pivot:
                                 head +=1;
                         while head < rear:
-                            while l(rear)> pivot:
+                            while l[rear]> pivot:
                                 rear -=1;
                         swap(l,head,rear);
                 # return quickSort(l,head,)
