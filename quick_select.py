@@ -21,13 +21,21 @@ def kth_biggest(k, nums, begin, end):
                         swap(nums, head, rear)
                         break
             if nums[head] > pivot:
-                swap(l, head-1, begin);
+                swap(nums, head-1, begin);
+                if end - head + 1 == k-1:
+                    return pivot;
+                elif end - head + 1 > k-1:
+                    return kth_biggest(k, nums, head, end);
+                else:
+                    return kth_biggest(k - end + head - 1, nums, begin, head-1)
             else:
-                swap(l, head, begin);
-            if end-head > k-1:
-                return kth_biggest(k,nums,head+1,end);
-            else:
-                return kth_biggest(k-end+head, nums, begin, head)
+                swap(nums, head, begin);
+                if end - head == k-1:
+                    return pivot;
+                elif end - head > k-1:
+                    return kth_biggest(k, nums, head+1, end);
+                else:
+                    return kth_biggest(k - end + head, nums, begin, head)
     return
 
 
@@ -38,5 +46,5 @@ def swap(l, p1, p2):
     return
 
 
-l = [9,3,2,4,8,1,33,54,44];
-print (kth_biggest(5,l, 0, len(l)-1));
+ll = [1,3,4,2]
+print (kth_biggest(1, ll, 0, len(ll)-1))
