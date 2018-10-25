@@ -2,10 +2,10 @@ def kth_biggest(k, nums, begin, end):
     while k <= end - begin + 1:
         if end - begin == 0:
             return nums[begin];
-        elif k == end - begin + 1:
+        elif 1 == end - begin:
             temp = nums[begin:end+1]
             temp.sort()
-            return temp[0];
+            return temp[2-k];
         else:
             pivot = nums[begin];
             head = begin;
@@ -39,4 +39,4 @@ def swap(l, p1, p2):
 
 
 l = [9,3,2,4,8,1,33,54,44];
-print (kth_biggest(1,l, 0, len(l)-1));
+print (kth_biggest(5,l, 0, len(l)-1));
