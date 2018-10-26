@@ -1,41 +1,42 @@
 def kth_biggest(k, nums, begin, end):
-    while k <= end - begin + 1:
-        if end - begin == 0:
-            return nums[begin];
-        elif 1 == end - begin:
-            temp = nums[begin:end+1]
+    if k<0 or len(nums)<1 or begin>end or k>end-begin+1:
+        return -1
+    else:
+        if k == end - begin + 1:
+            temp = nums[begin:end + 1]
             temp.sort()
-            return temp[2-k];
+            return temp[0];
+        # k < end - begin + 1
         else:
             pivot = nums[begin];
             head = begin;
             rear = end;
-            while head!= rear:
-                for i in xrange(head,rear + 1):
-                    head = i;
-                    if nums[head] > pivot:
-                        break
-                for j in xrange(rear, head-1, -1):
-                    rear = j;
-                    if nums[rear] <= pivot:
-                        swap(nums, head, rear)
-                        break
+            while head < rear:
+                while nums[head] <= pivot and head < rear:
+                    head += 1
+                while nums[rear] > pivot and head < rear:
+                    rear -= 1
+                swap(nums, head, rear)
+            # judge nums[head=rear] and pivot
             if nums[head] > pivot:
-                swap(nums, head-1, begin);
-                if end - head + 1 == k-1:
-                    return pivot;
-                elif end - head + 1 > k-1:
-                    return kth_biggest(k, nums, head, end);
+                num_bigger = end - head + 1
+                if num_bigger == k-1:
+                    return pivot
+                elif num_bigger > k-1:
+                    return kth_biggest(k, nums, head, end)
                 else:
-                    return kth_biggest(k - end + head - 1, nums, begin, head-1)
+                    return kth_biggest(k-num_bigger, nums, begin, head-1)
             else:
-                swap(nums, head, begin);
-                if end - head == k-1:
-                    return pivot;
-                elif end - head > k-1:
-                    return kth_biggest(k, nums, head+1, end);
+                swap(nums, 0, head)
+                num_bigger = end - head
+                if k == 1:
+                    return pivot
+                if num_bigger == k-1:
+                    return pivot
+                elif num_bigger > k-1:
+                    return kth_biggest(k, nums, head+1, end)
                 else:
-                    return kth_biggest(k - end + head, nums, begin, head)
+                    return kth_biggest(k - num_bigger, nums, begin, head-1)
     return
 
 
@@ -46,5 +47,5 @@ def swap(l, p1, p2):
     return
 
 
-ll = [1,3,4,2]
-print (kth_biggest(1, ll, 0, len(ll)-1))
+ll = [1,1,1,1,1,13,4,2,999]
+print (kth_biggest(3, ll, 0, len(ll)-1))
