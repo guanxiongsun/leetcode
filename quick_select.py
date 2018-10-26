@@ -20,7 +20,10 @@ def kth_biggest(k, nums, begin, end):
             elif num_bigger > k-1:
                 return kth_biggest(k, nums, head, end)
             else:
-                return kth_biggest(k-num_bigger, nums, begin, head-1)
+                if k == 1:
+                    return pivot
+                else:
+                    return kth_biggest(k-num_bigger, nums, begin, head-1)
         else:
             swap(nums, begin, head)
             num_bigger = end - head
@@ -29,7 +32,10 @@ def kth_biggest(k, nums, begin, end):
             elif num_bigger > k-1:
                 return kth_biggest(k, nums, head+1, end)
             else:
-                return kth_biggest(k - num_bigger-1, nums, begin, head-1)
+                if k==1:
+                    return pivot
+                else:
+                    return kth_biggest(k - num_bigger-1, nums, begin, head-1)
     return
 
 
