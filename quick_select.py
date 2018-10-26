@@ -24,14 +24,12 @@ def kth_biggest(k, nums, begin, end):
         else:
             swap(nums, begin, head)
             num_bigger = end - head
-            if k == 1:
-                return pivot
             if num_bigger == k-1:
                 return pivot
             elif num_bigger > k-1:
                 return kth_biggest(k, nums, head+1, end)
             else:
-                return kth_biggest(k - num_bigger, nums, begin, head-1)
+                return kth_biggest(k - num_bigger-1, nums, begin, head-1)
     return
 
 
