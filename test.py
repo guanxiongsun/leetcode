@@ -17,7 +17,7 @@ def bn_layer(x,is_training,name='BatchNorm',moving_decay=0.9,eps=1e-5):
 
         # 计算当前整个batch的均值与方差
         axes = list(range(len(shape)-1))
-        batch_mean, batch_var = tf.nn.moments(x,[0,3],name='moments')
+        batch_mean, batch_var = tf.nn.moments(x,axes,name='moments')
 
         # 采用滑动平均更新均值与方差
         ema = tf.train.ExponentialMovingAverage(moving_decay)
