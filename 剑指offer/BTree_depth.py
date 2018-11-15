@@ -77,7 +77,47 @@ class Solution:
         if pRoot is None:
             return 0
         stack = [pRoot]
-        max_depth = 0
+        times = [1]
+        # max_depth = 0
+        cur = stack[0]
+        while stack:
+            if times[-1] == 1:
+                if cur.left is not None:
+                    cur = cur.left
+                    stack.append(cur)
+                    times.append(1)
+            if self.isLeaf(cur):
+                stack.pop()
+                times.pop()
+                times[-1] += 1
+                cur = stack[-1]
+            else:
+                times[-1] += 1
+                if cur.right is not None:
+                    cur = cur.right
+                    stack.append(cur)
+                    times.append(1)
+                else:
+                    stack.pop()
+                    times.pop()
+                    cur = stack[-1]
+            if times[-1] == 2:
+                # go right
+                if cur.right is not None:
+                    times[-1] += 1
+                    cur = cur.right
+                    stack.append(cur)
+                    times.append(1)
+                else:
+                    stack.pop()
+                    times.pop()
+                    times[-1] += 1
+                    cur = stack[-1]
+            elif times[-1] == 3:
+                stack.pop()
+                times.pop()
+                times[-1] += 1
+                cur = stack[-1]
 
     def isLeaf(self, node):
         if node.left is None and node.right is None:
