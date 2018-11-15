@@ -25,8 +25,8 @@ class Solution:
         cur = pRoot
         if pRoot is None:
             return 0
-        stack = [pRoot]
-        times = [1]
+        # stack = [pRoot]
+        # times = [1]
         max_depth = 1
         cur_depth = 1
         # while stack:
@@ -54,28 +54,14 @@ class Solution:
         #         times[-1] += 1
         #         cur_depth -= 1
         #         cur = stack[-1]
-        while stack:
-            while cur and times[-1] != 3:
-                stack.append(cur)
-                times.append(1)
-                cur = cur.left
-            if times[-1] == 3:
-                stack.pop()
-                times.pop()
-                cur = stack[-1]
-                times[-1] += 1
+        queue = [pRoot]
+        max_depth = 0
+        while queue:
+            for i in range(len(queue)):
+                cur = queue.pop(0)
+                if cur.left:
+                    queue.append(cur.left)
                 if cur.right:
-                    cur = cur.right
-                    stack.append(cur)
-                    times.append(1)
-                else:
-                    times[-1] += 1
-            else:
-                cur = stack[-1]
-                times[-1] += 1
-                if cur.right:
-                    cur = cur.right
-                    stack.append(cur)
-                    times.append(1)
-                else:
-                    times[-1] += 1
+                    queue.append(cur.right)
+            max_depth += 1
+        return max_depth
