@@ -3,6 +3,12 @@
 """
 1.递归，depth = max(depth_left, depth_right) + 1
 2.层序遍历，queue
+3.使用双栈完成非递归遍历：
+    一个栈表示节点顺序，另一个栈表示当前节点出现次数：
+        - 第一次出现往左走
+        - 第二次出现往右走
+        - 第三次出现弹栈
+        *** 若为叶子节点->直接弹栈; 左或右为空，当前节点不变，改变该节点出现次数+1即可.
 3.前序、中序、后序
 
 """
@@ -78,46 +84,47 @@ class Solution:
             return 0
         stack = [pRoot]
         times = [1]
-        # max_depth = 0
+        max_depth = 1
         cur = stack[0]
         while stack:
-            if times[-1] == 1:
+            if cur:
+                print ("cur is: " + str(cur.val) + "    " + "time is: " + str(times[-1]))
+            depth = len(stack)
+            if depth > max_depth:
+                max_depth = depth
+            if self.isLeaf(cur):
+                stack.pop()
+                times.pop()
+                if len(times):
+                    times[-1] += 1
+                if len(stack):
+                    cur = stack[-1]
+            elif times[-1] == 1:
+                # go left
                 if cur.left is not None:
                     cur = cur.left
                     stack.append(cur)
                     times.append(1)
-            if self.isLeaf(cur):
-                stack.pop()
-                times.pop()
-                times[-1] += 1
-                cur = stack[-1]
-            else:
-                times[-1] += 1
-                if cur.right is not None:
-                    cur = cur.right
-                    stack.append(cur)
-                    times.append(1)
                 else:
-                    stack.pop()
-                    times.pop()
-                    cur = stack[-1]
-            if times[-1] == 2:
+                    # if none, cur not change, times ++
+                    times[-1] += 1
+            elif times[-1] == 2:
                 # go right
                 if cur.right is not None:
-                    times[-1] += 1
                     cur = cur.right
                     stack.append(cur)
                     times.append(1)
                 else:
-                    stack.pop()
-                    times.pop()
                     times[-1] += 1
-                    cur = stack[-1]
             elif times[-1] == 3:
+                # go back
                 stack.pop()
                 times.pop()
-                times[-1] += 1
-                cur = stack[-1]
+                if len(times):
+                    times[-1] += 1
+                if len(stack):
+                    cur = stack[-1]
+        return max_depth
 
     def isLeaf(self, node):
         if node.left is None and node.right is None:
@@ -127,4 +134,4 @@ class Solution:
 
 t = Tree([1,2,3,4,'#','#',5,'#',6,7,'#'])
 ss = Solution()
-ss.TreeDepth(t.pRoot)
+print ss.TreeDepth(t.pRoot)
