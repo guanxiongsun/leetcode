@@ -9,9 +9,11 @@ class Solution:
     def function(self, arg1, arg2):
         pass
 
+
 def main():
     s = Solution()
-    print (s.function(1, 2))
+    print(s.function(1, 2))
+
 
 if __name__ == '__main__':
     main()
